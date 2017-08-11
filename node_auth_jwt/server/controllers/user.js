@@ -9,7 +9,6 @@ module.exports = {
     create(req, res) {
         // get password hash
         var pHash = bCrypt.hashSync(req.body.password);
-        console.log("pHash ", pHash);
 
         // create user
         return User.create({

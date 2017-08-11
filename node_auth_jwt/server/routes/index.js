@@ -7,7 +7,7 @@ module.exports = (app) => {
     app.post('/api/user', userController.create);
 
     // login
-    app.post('/authenticate', authController.login);
+    app.post('/api/login', authController.login);
     
     // test route
     app.get('/api', (req, res) => res.status(200).send({

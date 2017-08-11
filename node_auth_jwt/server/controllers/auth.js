@@ -18,15 +18,12 @@ module.exports = {
             }
         }).then(user => {
             // if no user returned or password doesn't match, return fail
-            
             if(!user || 
                 !bCrypt.compareSync(req.body.password, user.password)) {
                 res.status(400)
                     .send("Authentication Failed. Username or password wrong.");
             } else {
                 // get token
-                console.log("user ", user);
-                console.log("user.dataValues ", user.dataValues);
                 // can save anything I need in here
                 // will be available behind auth endpoints
                 var payload = {
@@ -44,6 +41,13 @@ module.exports = {
         })
     },
     authorize(req, res, next) {
+
+        // only check api's
+        if (!req.path.startsWith("/api")) {
+            next();
+            return;
+        }
+
         var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
         if (token) {
