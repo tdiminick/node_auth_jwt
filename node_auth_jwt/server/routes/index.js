@@ -1,16 +1,22 @@
 const userController = require('../controllers').user;
+const authController = require('../controllers').auth;
 
 module.exports = (app) => {
 
-    app.post('/authenticate', userController.authenticate);
+    // register
+    app.post('/api/user', userController.create);
 
+    // login
+    app.post('/authenticate', authController.login);
+    
+    // test route
     app.get('/api', (req, res) => res.status(200).send({
         message: 'My API'
     }))
 
     // everything below this use will need to have auth
-    app.use(userController.authToken);
+    app.use(authController.authorize);
 
-    app.post('/api/user', userController.create);
+    // get user list, will add admin check to this eventually
     app.get('/api/users', userController.list);
 }
